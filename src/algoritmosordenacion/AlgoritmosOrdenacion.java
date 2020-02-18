@@ -13,18 +13,17 @@ import java.util.Random;
  */
 public class AlgoritmosOrdenacion {
 
-    int[] nums = {5,4,3,2,1};
-    
+    int[] nums = {5, 4, 3, 2, 1};
+
     int[] arrayParaBurbuja;
     int[] arrayParaInsercion;
-    
-    
+
     //Crea un array de tantos números aleatorios como le digas
-    public int[] generaRandom(int dimension){
+    public int[] generaRandom(int dimension) {
         int[] numeros = new int[dimension];
         Random r = new Random();
         for (int i = 0; i < numeros.length; i++) {
-            numeros[i]= r.nextInt();
+            numeros[i] = r.nextInt();
         }
         return numeros;
     }
@@ -47,7 +46,7 @@ public class AlgoritmosOrdenacion {
                     ordenado = false;
                 }
             }
-            System.out.println(nVueltas);
+
             if (ordenado || nVueltas <= 1) {
                 return numeros;
             }
@@ -57,22 +56,22 @@ public class AlgoritmosOrdenacion {
 
     }
 
+
     //Ordenación por insercción directa
     public int[] insercionDirecta2(int[] numeros) {
-        int aux=0;
+        int aux = 0;
         for (int i = 1; i < numeros.length; i++) {
-            aux= numeros[i];
+            aux = numeros[i];
             int j = i;
-            while( j>0 && numeros[j-1]<aux) {
-                numeros[j]=numeros[j-1];
+            while (j > 0 && numeros[j - 1] < aux) {
+                numeros[j] = numeros[j - 1];
                 j--;
             }
-            numeros[j]=aux;
+            numeros[j] = aux;
         }
         return numeros;
     }
 
-    
     //Ordenación por insercción directa
     public int[] insercionDirecta(int[] numeros) {
         for (int i = 1; i < numeros.length; i++) {
@@ -85,6 +84,28 @@ public class AlgoritmosOrdenacion {
             numeros[j] = aux;
         }
         return numeros;
+    }
+    
+    public void shellSort(int[] numeros){
+        int salto, aux;
+        boolean intercambio;
+        for(salto = numeros.length/2; salto !=0; salto/=2){
+            intercambio=true;
+            while(intercambio){
+                intercambio=false;
+                for (int i = salto; i < numeros.length; i+=salto) {
+                    if(numeros[i-salto]>numeros[i]){
+                        //si los dos números están desordenados entre sí
+                        //Los intercambio y lo indico
+                        aux=numeros[i];
+                        numeros[i]=numeros[i-salto];
+                        numeros[i-salto]= aux;
+                        intercambio=true;
+                    }
+                }
+            }
+            
+        }
     }
 
     public void imprimir(int[] n) {
@@ -102,25 +123,30 @@ public class AlgoritmosOrdenacion {
         //miAlgoritmo.imprimir(miAlgoritmo.insercionDirecta2(miAlgoritmo.nums));
 
         //Pruebas de rendimiento
-        int rangoPrueba=10000;  //Número de datos que probamos
+        int rangoPrueba = 1000;  //Número de datos que probamos
         int[] numeros = miAlgoritmo.generaRandom(rangoPrueba);
         miAlgoritmo.arrayParaBurbuja = new int[rangoPrueba];
         miAlgoritmo.arrayParaInsercion = new int[rangoPrueba];
-        
+
         for (int i = 0; i < rangoPrueba; i++) {
-            miAlgoritmo.arrayParaBurbuja[i]= numeros[i];
-            miAlgoritmo.arrayParaInsercion[i]= numeros[i];
+            miAlgoritmo.arrayParaBurbuja[i] = numeros[i];
+            miAlgoritmo.arrayParaInsercion[i] = numeros[i];
         }
-        
+
         //Aquí ya tengo dos copias exactas del array de datos aleatorios
-        
-        System.out.println("Empieza la burbuja");
+        System.out.println("Empieza la insercion");
         long tiempoInicio = System.currentTimeMillis();
-        miAlgoritmo.burbuja(miAlgoritmo.arrayParaBurbuja);
+        miAlgoritmo.insercionDirecta2(miAlgoritmo.arrayParaInsercion);
         long tiempofinal = System.currentTimeMillis();
-        
-        System.out.println("El tiemp");
-        
+
+        System.out.println("La insercion ha tardado: " + (tiempofinal - tiempoInicio));
+
+        System.out.println("Empieza burbuja");
+        tiempoInicio = System.currentTimeMillis();
+        miAlgoritmo.burbuja(miAlgoritmo.arrayParaBurbuja);
+        tiempofinal = System.currentTimeMillis();
+
+        System.out.println("La burbuja directa ha tardado: " + (tiempofinal - tiempoInicio));
     }
 
 }
